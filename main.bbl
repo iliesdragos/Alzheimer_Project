@@ -1,0 +1,36 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{dataset_source}
+Borhanitrash: Alzheimer mri disease classification dataset.
+  \url{https://www.kaggle.com/datasets/borhanitrash/alzheimer-mri-disease-classification-dataset}
+  (2022)
+
+\bibitem{helaly2021}
+Helaly, H.A., Badawy, M., Haikal, A.Y.: Deep learning approach for early
+  detection of alzheimer’s disease. Cognitive Computation  \textbf{14},
+  1711--1727 (2021)
+
+\bibitem{khvostikov2022}
+Khvostikov, A., Zheleznyak, E., Kuznetsov, P.: Hybrid approaches for
+  alzheimer’s classification using structural and diffusion imaging.
+  Frontiers in Neuroscience  \textbf{16},  1234--1246 (2022)
+
+\bibitem{nasir2021}
+Nasir, N., Ahmed, M., Afreen, N., Sameer, M.: Alzheimer’s magnetic resonance
+  imaging classification using deep and meta-learning models. International
+  Journal of Neural Systems pp. 1--12 (2021)
+
+\bibitem{pandiyaraju2022}
+Pandiyaraju, R., Murugan, K.: A dual-attention aware deep convolutional neural
+  network for early alzheimer’s detection. Journal of Alzheimer’s Disease
+  \textbf{87},  501--519 (2022)
+
+\bibitem{jo2021}
+Parmar, H., Walden, E.: Towards practical application of deep learning in
+  diagnosis of alzheimer’s disease. NeuroImage: Clinical  \textbf{31},
+  102731 (2021)
+
+\end{thebibliography}
