@@ -5,6 +5,7 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{pgfplots}
 \usepackage{ragged2e} 
+\usepackage{comment}
 \pgfplotsset{compat=1.17}
 
 \renewcommand{\UrlFont}{\small\ttfamily} 
@@ -21,6 +22,7 @@ Babeș-Bolyai University (UBB), Cluj-Napoca, Romania
 
 \begin{document}
 \maketitle
+\pagestyle{plain}
 
 \begin{abstract}
     % Abstract-ul va fi completat ulterior.
@@ -93,21 +95,86 @@ Before training the models, the dataset underwent the following preprocessing st
 \end{enumerate}
 
 \subsection{Class Distribution}
-The dataset contains an uneven distribution of images across the four classes, as shown in Table~\ref{tab:class_distribution}. This distribution highlights the class imbalance, with the `Non-Demented` class containing the most samples and the `Moderate Demented` class having the least. To address this imbalance, data augmentation techniques were applied during preprocessing.
+The dataset contains an uneven distribution of images across the four classes, as shown in Figure~\ref{fig:class_distribution}. This distribution highlights the class imbalance, with the `Non-Demented` class containing the most samples and the `Moderate Demented` class having the least. To address this imbalance, data augmentation techniques were applied during preprocessing.
 
-\begin{table}[htbp]
+\begin{figure}[htbp]
     \centering
-    \caption{Distribution of Classes in the Alzheimer's MRI Dataset}
-    \label{tab:class_distribution}
-    \begin{tabular}{|l|c|}
-        \hline
-        \textbf{Type of Alzheimer’s Disease} & \textbf{Images Count} \\ \hline
-        Non Demented                         & 2560                  \\ \hline
-        Very Mild Demented                   & 1792                  \\ \hline
-        Mild Demented                        & 717                   \\ \hline
-        Moderate Demented                    & 52                    \\ \hline
-    \end{tabular}
-\end{table}
+    \begin{tikzpicture}
+        \begin{axis}[
+                ybar, % Barele sunt verticale
+                ymin=0, ymax=3000, % Intervalul axei Y
+                width=0.8\textwidth, % Lățimea graficului
+                height=6cm, % Înălțimea graficului
+                xlabel={}, % Titlul axei X
+                ylabel={Number of Images}, % Titlul axei Y
+                symbolic x coords={Moderate Demented, Mild Demented, Very Mild Demented, Non Demented},
+                xtick=data, % Pune numele claselor pe axa X
+                xticklabel style={font=\small, rotate=45, anchor=east}, % Înclinare 45° a etichetelor
+                nodes near coords, % Afișează numărul exact de imagini lângă bare
+                nodes near coords align={vertical}, % Aliniere text
+                bar width=0.6cm, % Lățimea barelor
+                title={Class Distribution in the Alzheimer's MRI Dataset}
+            ]
+            \addplot coordinates {(Moderate Demented,52) (Mild Demented,717) (Very Mild Demented,1792) (Non Demented,2560)};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Distribution of Classes in the Alzheimer's MRI Dataset.}
+    \label{fig:class_distribution}
+\end{figure}
+
+\section{Methodology}
+
+In this section, we present the analysis methods chosen for Alzheimer's Disease classification using MRI data, the tested settings, the validation strategy employed, and the parameter selection process. The methods selected include Convolutional Neural Networks (CNN) with varying architectures (standard CNN, ResNet, and VGG), as well as Support Vector Machines (SVM) for comparison purposes.
+
+\subsection{Convolutional Neural Networks (CNN)}
+CNNs have proven effective in image classification tasks due to their ability to automatically extract relevant features from images. We employed the following CNN-based architectures:
+
+\begin{enumerate}
+    \item Standard CNN: A baseline CNN architecture consisting of convolutional layers, max-pooling, and fully connected layers. This method serves as a reference point for performance comparison.
+    \item CNN with ResNet: We utilized a Residual Network (ResNet), which incorporates skip connections to mitigate the vanishing gradient problem and facilitate training of deep networks. ResNet-18 was chosen due to its efficiency in balancing accuracy and computational cost.
+    \item CNN with VGG: The VGG architecture (specifically VGG-16) was implemented to explore the performance of deeper, uniform convolutional layers. This model is known for its ability to capture fine-grained spatial features in images.
+\end{enumerate}
+
+Each CNN model was trained using the following settings:
+\begin{itemize}
+    \item Input Dimensions: MRI images were resized to $128 \times 128 \times 1$.
+    \item Activation Function: ReLU (Rectified Linear Unit) was used for non-linear activation.
+    \item Optimizer: Adam optimizer with a learning rate of $1 \times 10^{-4}$.
+    \item Loss Function: Categorical Cross-Entropy Loss.
+    \item Batch Size: 32.
+    \item Epochs: 50.
+\end{itemize}
+
+\subsection{Support Vector Machines (SVM)}
+In addition to CNN-based methods, we implemented a Support Vector Machine (SVM) classifier as a traditional machine learning baseline. For SVM, the MRI images were flattened into 1D feature vectors, and a linear kernel was selected for simplicity and interpretability.
+
+The key settings for SVM include:
+\begin{itemize}
+    \item Kernel: Linear.
+    \item Regularization Parameter (C): Tested values include $0.1, 1, 10$, with the best value determined using grid search.
+\end{itemize}
+
+\subsection{Validation Strategy}
+To ensure the robustness of the models, we employed a 5-fold cross-validation strategy. The dataset was split into five subsets, with four subsets used for training and one subset for validation. This process was repeated five times, and the results were averaged to minimize variance and overfitting.
+
+\subsection{Parameter Selection}
+The selection of hyperparameters for each method was conducted as follows:
+\begin{itemize}
+    \item For CNN models, hyperparameters such as learning rate, batch size, and the number of layers were fine-tuned through empirical testing and grid search.
+    \item For SVM, the regularization parameter \( C \) was optimized using grid search with cross-validation.
+\end{itemize}
+
+\subsection{Implementation Details}
+All experiments were conducted using Python and TensorFlow/Keras for deep learning methods. For SVM, we used the Scikit-learn library. The training and testing processes were carried out on Google Colab, leveraging GPU acceleration for CNN models.
+
+\begin{comment}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{training_pipeline.png}
+    \caption{Overview of the training and evaluation pipeline.}
+    \label{fig:training_pipeline}
+\end{figure}
+\end{comment}
 
 \sloppy
 \bibliographystyle{splncs04}
