@@ -158,7 +158,6 @@ Overfitting was observed after 10 epochs, motivating the use of more advanced mo
 ResNet-50 was employed to improve performance. The model was initialized with ImageNet weights, and the following techniques were applied:
 \begin{itemize}
     \item \textbf{Data Augmentation:} Rotation, flipping, and scaling.
-    \item \textbf{Fine-Tuning:} The top layers were unfrozen after initial training.
     \item \textbf{Batch Size:} 8 (limited by available memory).
     \item \textbf{Epochs:} 20.
 \end{itemize}
@@ -168,13 +167,10 @@ Due to memory limitations, further fine-tuning and testing on augmented data wer
 An SVM classifier was trained using flattened feature vectors. The optimal regularization parameter \(C\) was selected via grid search with cross-validation. The best value was \(C=1\).
 
 \subsection{Random Forest}
-The Random Forest model was trained with the following settings:
 \begin{itemize}
     \item \textbf{Number of Trees:} 100.
-    \item \textbf{Max Depth:} Selected via grid search.
     \item \textbf{Criterion:} Gini Impurity.
 \end{itemize}
-This model offered interpretability but required feature extraction.
 
 \subsection{Validation Strategy}
 A 15\% split of the dataset was used for validation during model training. Test data were kept separate to evaluate model performance. Cross-validation was used for hyperparameter tuning in SVM and Random Forest.
@@ -223,14 +219,14 @@ Figures~\ref{fig:cnn_confusion} and~\ref{fig:svm_confusion} present the confusio
     \label{fig:cnn_confusion}
 \end{figure}
 
+The CNN confusion matrix (Figure~\ref{fig:cnn_confusion}) reveals that it correctly classified a large proportion of samples in all classes. For instance, in Class 2 (Mild Cognitive Impairment), the model classified 624 samples correctly out of the total 634. However, the CNN struggled more significantly with Class 3 (Severe Cognitive Impairment), misclassifying 82 samples into Class 2 and 6 samples into Class 0. This indicates that the CNN model, while effective at capturing spatial patterns, faced difficulties in distinguishing adjacent classes with overlapping characteristics.
+
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.7\textwidth]{svm_confusion_matrix.png}
     \caption{Confusion Matrix for SVM.}
     \label{fig:svm_confusion}
 \end{figure}
-
-The CNN confusion matrix (Figure~\ref{fig:cnn_confusion}) reveals that it correctly classified a large proportion of samples in all classes. For instance, in Class 2 (Mild Cognitive Impairment), the model classified 624 samples correctly out of the total 634. However, the CNN struggled more significantly with Class 3 (Severe Cognitive Impairment), misclassifying 82 samples into Class 2 and 6 samples into Class 0. This indicates that the CNN model, while effective at capturing spatial patterns, faced difficulties in distinguishing adjacent classes with overlapping characteristics.
 
 In comparison, the confusion matrix for the SVM model  (Figure~\ref{fig:svm_confusion}) shows excellent performance across all classes. For Class 2, the SVM correctly classified 630 out of 634 samples, with only 4 samples misclassified. For Class 3, the model correctly identified 445 samples, with minor confusion leading to 11 samples being classified as Class 2. The SVM's overall performance demonstrates its robustness in effectively distinguishing between classes, even when the input features are flattened and spatial information is lost. This highlights the SVM's capacity to handle the task efficiently, leveraging its simplicity and well-defined hyperplane separation.
 
